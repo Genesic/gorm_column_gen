@@ -18,7 +18,7 @@ schema_column_parser -source foo.go -destination gen_foo.go -struct Foo -package
 
 ## example
 
-destination file
+source file
 ```go
 foo.go
 
@@ -31,7 +31,7 @@ type Foo struct {
 }
 ```
 
-generated file
+generated file (destination file)
 ```go
 gen_foo.go
 

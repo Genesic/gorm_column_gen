@@ -1,6 +1,6 @@
 module github.com/Genesic/gorm_column_gen
 
-go 1.24
+go 1.23
 
 require gorm.io/gorm v1.25.12
 

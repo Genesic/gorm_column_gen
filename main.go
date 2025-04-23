@@ -48,7 +48,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	_, fields, err := loadStructFields(*srcFile, *structName)
+	fields, err := loadStructFields(*srcFile, *structName)
 	if err != nil {
 		_, _ = fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
@@ -87,12 +87,16 @@ type TableField struct {
 	DBName string
 }
 
-func loadStructFields(srcFile, structName string) (tableName string, fields []TableField, err error) {
+func (t *TableField) Equal(f TableField) bool {
+	return t.Name == f.Name && t.DBName == f.DBName
+}
+
+func loadStructFields(srcFile, structName string) (fields []TableField, err error) {
 	// parse source file
 	fSet := token.NewFileSet()
 	fileAst, err := parser.ParseFile(fSet, srcFile, nil, parser.ParseComments)
 	if err != nil {
-		return "", nil, err
+		return nil, err
 	}
 
 	// gorm default naming strategy
@@ -133,10 +137,10 @@ func loadStructFields(srcFile, structName string) (tableName string, fields []Ta
 				})
 			}
 
-			return tableName, fields, nil
+			return fields, nil
 		}
 	}
-	return "", nil, fmt.Errorf("struct %q not found in %s", structName, srcFile)
+	return nil, fmt.Errorf("struct %q not found in %s", structName, srcFile)
 }
 
 func getTableName(fileAst *ast.File, structName string, naming schema.NamingStrategy) (string, error) {

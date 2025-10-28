@@ -12,7 +12,7 @@ go install github.com/Genesic/gorm_column_gen@latest
 ## usage
 
 ```bash
-schema_column_parser -source foo.go -destination gen_foo.go -struct Foo -package model
+gorm_column_gen -source foo.go -destination gen_foo.go -struct Foo -package model
 ```
 
 
